@@ -1,4 +1,4 @@
-import { Menu, Search, ShieldCheck, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
@@ -37,10 +37,6 @@ export default function Header() {
           <NavLink to="/products" className="icon-button" aria-label="Search products">
             <Search size={18} />
           </NavLink>
-          <NavLink to="/admin" className="primary-button">
-            <ShieldCheck size={18} />
-            Admin
-          </NavLink>
         </div>
         <button className="icon-button lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
           <Menu size={22} />
@@ -69,10 +65,6 @@ export default function Header() {
                   {link.label}
                 </NavLink>
               ))}
-              <NavLink to="/admin" className="primary-button mt-4 justify-center" onClick={() => setOpen(false)}>
-                <ShieldCheck size={18} />
-                Admin Login
-              </NavLink>
             </nav>
           </div>
         </div>

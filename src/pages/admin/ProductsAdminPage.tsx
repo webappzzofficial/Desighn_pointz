@@ -14,7 +14,7 @@ export default function ProductsAdminPage() {
     return matchesQuery && matchesFilter;
   });
 
-  const updateProduct = (id: string, key: string, value: string | number | boolean) => {
+  const updateProduct = (id: string, key: string, value: string | number | boolean | null) => {
     const next = items.map((item) => (item.id === id ? { ...item, [key]: value } : item));
     setItems(next);
     saveLocalProducts(next);
@@ -35,7 +35,7 @@ export default function ProductsAdminPage() {
               slug: `new-product-${now}`,
               description: "Add product description.",
               shortDescription: "Short product description.",
-              price: 0,
+              price: null,
               isActive: true,
               isFeatured: false,
               createdAt: new Date().toISOString().slice(0, 10),
@@ -87,7 +87,12 @@ export default function ProductsAdminPage() {
                 </label>
                 <label className="label">
                   Price
-                  <input className="field mt-2" type="number" value={product.price} onChange={(event) => updateProduct(product.id, "price", Number(event.target.value))} />
+                  <input
+                    className="field mt-2"
+                    type="number"
+                    value={product.price ?? ""}
+                    onChange={(event) => updateProduct(product.id, "price", event.target.value === "" ? null : Number(event.target.value))}
+                  />
                 </label>
                 <label className="label">
                   Category

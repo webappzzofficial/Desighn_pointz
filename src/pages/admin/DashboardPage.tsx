@@ -1,6 +1,7 @@
 import { Boxes, EyeOff, FolderKanban, PackageCheck } from "lucide-react";
 import StatCard from "../../components/admin/StatCard";
 import { categories, products } from "../../data/seed";
+import { formatPrice } from "../../lib/whatsapp";
 
 export default function DashboardPage() {
   const activeProducts = products.filter((product) => product.isActive);
@@ -31,7 +32,7 @@ export default function DashboardPage() {
               {products.slice(0, 5).map((product) => (
                 <tr key={product.id}>
                   <td>{product.name}</td>
-                  <td>INR {product.price}</td>
+                  <td>{formatPrice(product.price)}</td>
                   <td>{product.isActive ? "Active" : "Inactive"}</td>
                   <td>{product.createdAt}</td>
                 </tr>

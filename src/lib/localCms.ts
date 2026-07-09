@@ -25,7 +25,15 @@ export function saveLocalCategories(value: Category[]) {
 }
 
 export function getLocalProducts() {
-  return read<Product[]>(keys.products, products);
+  const stored = read<Product[]>(keys.products, products);
+  const storedSlugs = new Set(stored.map((product) => product.slug));
+  const missingImports = products.filter((product) => !storedSlugs.has(product.slug));
+
+  if (missingImports.length === 0) return stored;
+
+  const merged = [...stored, ...missingImports];
+  write(keys.products, merged);
+  return merged;
 }
 
 export function saveLocalProducts(value: Product[]) {

@@ -16,9 +16,11 @@ create table if not exists public.products (
   category_id uuid references public.categories(id) on delete set null,
   name text not null,
   slug text not null unique,
-  description text not null,
-  price numeric(12,2) not null default 0,
+  description text not null default '',
+  short_description text not null default '',
+  price numeric(12,2),
   is_active boolean not null default true,
+  is_featured boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -31,6 +33,15 @@ create table if not exists public.product_images (
   sort_order integer not null default 0,
   created_at timestamptz not null default now()
 );
+
+alter table public.products
+  alter column description set default '',
+  add column if not exists short_description text not null default '',
+  alter column price drop not null,
+  add column if not exists is_featured boolean not null default false;
+
+create unique index if not exists product_images_product_id_image_url_key
+on public.product_images(product_id, image_url);
 
 create table if not exists public.site_settings (
   id uuid primary key default gen_random_uuid(),

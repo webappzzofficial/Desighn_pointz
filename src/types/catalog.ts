@@ -23,7 +23,7 @@ export type Product = {
   slug: string;
   description: string;
   shortDescription: string;
-  price: number;
+  price: number | null;
   isActive: boolean;
   isFeatured: boolean;
   createdAt: string;

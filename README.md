@@ -61,6 +61,46 @@ CMS sections:
 
 Category CMS supports editing name, image URL, status, and display order. Product CMS supports add, edit, delete, category, price, status, description, and image placeholders. Production upload flows should write images to Supabase Storage and save URLs in `product_images`.
 
+## Product Directory Import
+
+Place product images under `Products/` using these category folders:
+
+```text
+Products/
+  Gift Items/
+  ID Cards/
+  Mementos & Trophies/
+  Wedding Cards/
+```
+
+Run:
+
+```bash
+pnpm import:products
+```
+
+The importer:
+
+- Detects the category from the folder name.
+- Uses the image filename as the product name.
+- Removes image extensions such as `.jpg`, `.jpeg`, `.png`, and `.webp`.
+- Groups numbered files such as `A4 Frame 1.jpg`, `A4 Frame 2.jpg`, or `DPW CARDS (119).jpeg` into one product gallery.
+- Copies imported images into `public/assets/imported-products/`.
+- Generates `src/data/importedProducts.ts`.
+- Sets imported products active by default.
+- Leaves price and description empty so they can be edited from the admin panel.
+- Preserves existing imported product details when the same slug is imported again.
+
+To upload to Supabase Storage and upsert database records, run the same command with server-only environment variables:
+
+```powershell
+$env:SUPABASE_URL="https://your-project.supabase.co"
+$env:SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+pnpm import:products
+```
+
+Do not expose `SUPABASE_SERVICE_ROLE_KEY` in frontend `.env` files or Vercel public variables.
+
 ## WhatsApp Number
 
 The WhatsApp number is stored in website settings. Product buttons generate this message:
